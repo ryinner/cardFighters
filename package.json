@@ -1,0 +1,37 @@
+{
+  "name": "card_fighters",
+  "version": "1.0.0",
+  "description": "its a simple vue js game",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryinner/card_fighters.git"
+  },
+  "type": "module",
+  "dependencies": {
+    "vue": "^3.2.47"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.1.0",
+    "typescript": "^4.9.3",
+    "vite": "^4.2.0",
+    "vue-tsc": "^1.2.0"
+  },
+  "keywords": [
+    "vue",
+    "vite",
+    "game"
+  ],
+  "author": "ryinner",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ryinner/card_fighters/issues"
+  },
+  "homepage": "https://github.com/ryinner/card_fighters#readme"
+}
