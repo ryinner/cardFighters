@@ -3,9 +3,11 @@ import { MAX_CARDS_IN_DECK } from '../consts/cardsSettings.consts';
 import cardsMap from '../maps/cards.map';
 import { useUserStore } from '../state/user.state';
 import Card from './BaseCard.vue';
+import BaseLink from './BaseLink.vue';
 
 const user = useUserStore();
 
+const { toggleCard } = user;
 </script>
 
 <template>
@@ -19,6 +21,7 @@ const user = useUserStore();
                 :key="card.id"
                 :card="card"
                 class="choose-cards__item"
+                @click="toggleCard(card)"
             />
         </div>
         <div class="choose-cards__counter">
@@ -28,6 +31,14 @@ const user = useUserStore();
             /
             {{ MAX_CARDS_IN_DECK }}
         </div>
+        <div class="choose-cards__link">
+            <BaseLink
+                :class="{'choose-cards__link--disabled': !user.isMaxCardsInDeck}"
+                to="/"
+            >
+                Start the game
+            </BaseLink>
+        </div>
     </div>
 </template>
 
@@ -35,6 +46,7 @@ const user = useUserStore();
 .choose-cards {
     &__cards {
         margin-top: 2rem;
+
         gap: var(--default-gap);
         display: grid;
         grid-template-columns: repeat(12, 1fr);
@@ -55,6 +67,20 @@ const user = useUserStore();
 
         &--error {
             color: var(--error-color);
+        }
+    }
+
+    &__link {
+        margin-top: 2rem;
+
+        &--disabled {
+            transition: 300ms ease;
+
+            color: var(--inactive-color);
+
+            border-color: var(--inactive-color);
+
+            pointer-events: none;
         }
     }
 }

@@ -1,13 +1,22 @@
 <script lang="ts" setup>
+import { computed } from 'vue';
+import { useUserStore } from '../state/user.state';
 import { Card } from '../types/cards.type';
 
 const props = defineProps<{
     card: Card;
 }>();
+
+const { haveCard } = useUserStore();
+
+const isSelected = computed(() => haveCard(props.card));
 </script>
 
 <template>
-    <div class="card">
+    <div 
+        class="card"
+        :class="{'card--active': isSelected}"
+    >
         <div class="card__portrait">
             <img
                 :src="card.image"
