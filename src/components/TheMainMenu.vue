@@ -1,11 +1,25 @@
 <template>
     <div class="main-menu">
-        <button class="main-menu__button">
+        <h1 class="main-menu__heading">
+            Card Fighters
+        </h1>
+        <RouterLink
+            :to="{
+                name: 'choose-cards'
+            }"
+            class="main-menu__link"
+        >
             Start
-        </button>
+        </RouterLink>
     </div>
 </template>
 
 <style lang="scss" scoped>
-
-</style>
+.main-menu {
+    &__link {
+        color: var(--primary-color);
+        font-size: 1.5rem;
+        padding: 0.5rem 2rem;
+        text-decoration: none;
+    }
+}</style>

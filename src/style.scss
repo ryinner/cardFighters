@@ -1,0 +1,49 @@
+:root {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+
+    --ink-color: #ffffffde;
+    --page-color: #242424;
+    --primary-color: #a76bcf;
+    --error-color: #bd3d3d;
+    --success-color: #26992c;
+
+    --default-gap: 10px;
+
+    color-scheme: light dark;
+    color: var(--ink-color);
+    background-color: var(--page-color);
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    place-items: center;
+    min-width: 320px;
+    min-height: 100vh;
+}
+
+#app {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+h1 {
+    font-size: 4rem;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --ink-color: #213547;
+        --page-color: #ffffff;
+    }
+}

@@ -4,7 +4,7 @@
   "description": "its a simple vue js game",
   "main": "index.js",
   "scripts": {
-    "test": "test",
+    "test": "vitest run",
     "dev": "vite",
     "build": "vue-tsc && vite build",
     "preview": "vite preview"
@@ -15,6 +15,7 @@
   },
   "type": "module",
   "dependencies": {
+    "pinia": "^2.0.33",
     "sass": "^1.60.0",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
