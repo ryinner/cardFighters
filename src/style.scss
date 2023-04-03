@@ -1,4 +1,6 @@
 :root {
+    box-sizing: border-box;
+
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
@@ -8,6 +10,7 @@
     --primary-color: #a76bcf;
     --error-color: #bd3d3d;
     --success-color: #26992c;
+    --inactive-color: #dbdbdb;
 
     --default-gap: 10px;
 

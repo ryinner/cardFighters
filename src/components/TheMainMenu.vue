@@ -19,7 +19,10 @@
     &__link {
         color: var(--primary-color);
         font-size: 1.5rem;
-        padding: 0.5rem 2rem;
         text-decoration: none;
+
+        border: 1px solid var(--primary-color);
+
+        padding: 0.5rem 2rem;
     }
 }</style>
