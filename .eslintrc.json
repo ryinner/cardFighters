@@ -5,6 +5,7 @@
     },
     "extends": [
         "eslint:recommended",
+        "@ryinner/eslint-config-js",
         "plugin:vue/vue3-recommended",
         "plugin:@typescript-eslint/recommended"
     ],
@@ -23,7 +24,10 @@
     "rules": {
         "indent": [
             "error",
-            4
+            4,
+            {
+                "SwitchCase": 1
+            }
         ],
         "quotes": [
             "error",
@@ -34,7 +38,13 @@
             "always"
         ],
         "@typescript-eslint/key-spacing": "warn",
-        "@typescript-eslint/indent": ["error", 4, {"SwitchCase": 1}],
+        "@typescript-eslint/indent": [
+            "error",
+            4,
+            {
+                "SwitchCase": 1
+            }
+        ],
         "@typescript-eslint/semi": ["error", "always"],
         "@typescript-eslint/member-delimiter-style": ["error", {
             "multiline": {
