@@ -8,3 +8,5 @@ createApp(App)
     .use(router)
     .use(store)
     .mount('#app');
+
+console.log(router.currentRoute.value, router.getRoutes());
