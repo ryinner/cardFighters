@@ -7,8 +7,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - id: Build-Vue
-      uses: xRealNeon/VuePagesAction@1.0.0
+      uses: xRealNeon/VuePagesAction@1.0.1
       with:
         username: 'ryinner'
         reponame: 'cardFighters'
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }} # Leave this line unchanged
