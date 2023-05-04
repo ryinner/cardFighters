@@ -39,6 +39,8 @@ const isSelected = computed(() => haveCard(props.card));
 </template>
 
 <style lang="scss" scoped>
+@import '../style/mixins/media';
+
 .card {
     padding: 2rem 1rem;
 
@@ -56,6 +58,10 @@ const isSelected = computed(() => haveCard(props.card));
     &__portrait {
         display: flex;
         grid-row: 8 span;
+
+        @include for-tablet {
+            grid-row: 6 span;
+        }
     }
 
     &__image {
@@ -67,6 +73,10 @@ const isSelected = computed(() => haveCard(props.card));
 
     &__text {
         grid-row: 4 span;
+
+        @include for-tablet {
+            grid-row: 6 span;
+        }
     }
 
     &__name {

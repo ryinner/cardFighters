@@ -13,5 +13,8 @@ export default defineConfig({
             '@': srcDir
         },
     },
-    base: '/cardFighters/'
+    base: '/cardFighters/',
+    server: {
+        open: true
+    }
 });

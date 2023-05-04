@@ -43,6 +43,7 @@ const { toggleCard } = user;
 </template>
 
 <style lang="scss" scoped>
+@import '../style/mixins/media';
 .choose-cards {
     &__cards {
         margin-top: 2rem;
@@ -54,6 +55,10 @@ const { toggleCard } = user;
 
     &__item {
         grid-column: 3 span;
+
+        @include for-phone-only {
+            grid-column: 6 span;
+        }
     }
 
     &__counter {
