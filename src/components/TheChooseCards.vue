@@ -34,7 +34,7 @@ const { toggleCard } = user;
         <div class="choose-cards__link">
             <BaseLink
                 :class="{'choose-cards__link--disabled': !user.isMaxCardsInDeck}"
-                to="/"
+                :to="{ name: 'fight' }"
             >
                 Start the game
             </BaseLink>

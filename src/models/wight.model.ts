@@ -1,7 +1,13 @@
 import type { Card } from '../types/cards.type';
 
 export default class {
+    public readonly name: string;
+    public readonly image: string;
+
     public isAlive = true;
+
+    private readonly maxHealPoints: number;
+    private healPoints: number;
 
     public get hp (): number {
         return this.healPoints;
@@ -15,12 +21,11 @@ export default class {
         }
     }
 
-    private readonly maxHealPoints: number;
-    private healPoints: number;
-
     constructor (cardRaw: Card) {
         this.healPoints = cardRaw.healthPoints;
         this.maxHealPoints = cardRaw.healthPoints;
+        this.name = cardRaw.name;
+        this.image = cardRaw.image;
     }
 
     public takeDamage(damage: number): void {
@@ -40,4 +45,4 @@ export default class {
         this.isAlive = false;
         this.hp = 0;
     }
-};
+}

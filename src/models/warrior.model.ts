@@ -12,4 +12,4 @@ export default class extends WightModel {
     public attack (target: WightModel) {
         target.takeDamage(this.damage);
     }
-};
+}

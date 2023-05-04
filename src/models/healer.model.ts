@@ -13,4 +13,4 @@ export default class extends WightModel {
     public heal (target: WightModel) {
         target.takeHeal(this.healingPower);
     }
-};
+}

@@ -10,7 +10,7 @@ Basic things what should be in project:
 
 This is exactly what I want to code:
 
-- [:x:] MainMenu;
+- [:heavy_check_mark:] MainMenu;
 - [:x:] CardsUI;
 - [:x:] CardsTypes: \[DD, Healer\];
 - [:x:] CardsActions: \[Spawn, Heal, TakeDamage, Attack, Die\];
