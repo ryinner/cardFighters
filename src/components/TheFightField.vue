@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { nextTick, onMounted, ref, Ref } from 'vue';
 import cardsFactoryFunctional from '../functional/cardsFactory.functional';
+import getRandomDeckFunctional from '../functional/getRandomDeck.functional';
 import { useUserStore } from '../state/user.state';
 import { CardsFighters } from '../types/cardsFighters.types';
 import CardFighter from './CardFighter.vue';
@@ -9,10 +10,15 @@ const userStore = useUserStore();
 
 const cardsSize = ref({ width: '0px', height: '0px' });
 const cardFightersPlayer: Ref<CardsFighters[]> = ref([]);
+const cardFightersEnemy: Ref<CardsFighters[]> = ref([]);
+const selectedCardFighter: Ref<CardsFighters | undefined> = ref();
 
 const initialize = () => {
     userStore.cardsRaw.forEach(cardRaw => {
         cardFightersPlayer.value.push(cardsFactoryFunctional(cardRaw));
+    });
+    getRandomDeckFunctional().forEach((cardRaw) => {
+        cardFightersEnemy.value.push(cardsFactoryFunctional(cardRaw));
     });
     nextTick(() => {
         const card = document.querySelector('.card-fighter:first-child');
@@ -22,6 +28,16 @@ const initialize = () => {
             cardsSize.value.width = `${clientHeight}px`;
         }
     });
+};
+
+const cardClickHandler = (cardFighter: CardsFighters, isPlayerCard: boolean) => {
+    if (typeof selectedCardFighter.value === 'undefined' && isPlayerCard) {
+        selectedCardFighter.value = cardFighter;
+        return;
+    }
+    if (selectedCardFighter.value === cardFighter && isPlayerCard) {
+        selectedCardFighter.value = undefined;
+    }
 };
 
 onMounted(initialize);
@@ -35,14 +51,23 @@ onMounted(initialize);
         </div>
         <div class="fight-field__arena">
             <div class="fight-field__player">
-                <CardFighter 
+                <CardFighter
                     v-for="fighter in cardFightersPlayer" 
                     :key="fighter.name"
-                    :fighter="fighter" 
+                    :fighter="fighter"
+                    :is-player="true"
+                    :is-selected="fighter === selectedCardFighter"
+                    @click="cardClickHandler(fighter, true)"
                 />
             </div>
             <div class="fight-field__enemy">
-                test
+                <CardFighter
+                    v-for="fighter in cardFightersEnemy"
+                    :key="fighter.name"
+                    :fighter="fighter"
+                    :is-player="false"
+                    @click="cardClickHandler(fighter, false)"
+                />
             </div>
         </div>
     </div>
