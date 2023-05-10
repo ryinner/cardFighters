@@ -6,7 +6,7 @@ export default function (): typeof cardsMap {
 
     const randomCards: typeof cardsMap = [];
     for (let i = 0; i < MAX_CARDS_IN_DECK; i++) {
-        const randomIndex = Math.floor(Math.random() * cardsMap.length);
+        const randomIndex = Math.floor(Math.random() * mapProxy.length);
         const randomItem = mapProxy.splice(randomIndex, 1);
         randomCards.push(...randomItem);        
     }
