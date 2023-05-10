@@ -46,8 +46,12 @@ onMounted(initialize);
 <template>
     <div class="fight-field">
         <div class="fight-field__graveyard">
-            <div class="fight-field__graveyard-player">test</div>
-            <div class="fight-field__graveyard-enemy">test</div>
+            <div class="fight-field__graveyard-player">
+                test
+            </div>
+            <div class="fight-field__graveyard-enemy">
+                test
+            </div>
         </div>
         <div class="fight-field__arena">
             <div class="fight-field__player">

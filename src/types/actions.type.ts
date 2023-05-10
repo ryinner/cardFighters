@@ -1,6 +1,6 @@
 export enum ActionsTypes {
-    attack,
-    heal
+    attack = 'attack',
+    heal = 'heal'
 }
 
 export type WarriorActions = ActionsTypes.attack;

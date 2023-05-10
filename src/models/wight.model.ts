@@ -1,8 +1,11 @@
+import actionsFactoryFunctional from '../functional/actionsFactory.functional';
+import type { FormedActions } from '../types/actionsFormed.type';
 import type { Card } from '../types/cards.type';
 
 export default class {
     public readonly name: string;
     public readonly image: string;
+    public readonly actions: FormedActions[];
 
     public isAlive = true;
 
@@ -26,6 +29,7 @@ export default class {
         this.maxHealPoints = cardRaw.healthPoints;
         this.name = cardRaw.name;
         this.image = cardRaw.image;
+        this.actions = actionsFactoryFunctional(cardRaw.actions);
     }
 
     public takeDamage(damage: number): void {
