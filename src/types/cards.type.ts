@@ -1,3 +1,5 @@
+import type { Action, AllClassesAction, HealerActions, WarriorActions } from './actions.type';
+
 interface AbstractCard {
     id: number;
     name: string;
@@ -6,18 +8,17 @@ interface AbstractCard {
     coast: number;
 }
 
-export interface Wight extends AbstractCard {
+export interface Wight<FighterType extends AllClassesAction> extends AbstractCard {
     healthPoints: number;
+    actions: Action<FighterType>[];
 }
 
-export interface Warrior extends Wight {
+export interface Warrior extends Wight <WarriorActions>{
     type: 'warrior';
-    damage: number;
 }
 
-export interface Healer extends Wight {
+export interface Healer extends Wight <HealerActions> {
     type: 'healer';
-    healPoints: number;
 }
 
 export type Card = Warrior | Healer;
