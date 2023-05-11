@@ -12,10 +12,10 @@ defineProps<{
 <template>
     <div
         class="card-fighter"
-        :class="{'card-fighter--player': isPlayer, 'card-fighter--enemy': !isPlayer, 'card-fighter--selected': isSelected}"
+        :class="{ 'card-fighter--player': isPlayer, 'card-fighter--enemy': !isPlayer, 'card-fighter--selected': isSelected }"
     >
         <div class="card-fighter__stats">
-            <div 
+            <div
                 class="card-fighter__hp"
                 title="hp"
             >
@@ -31,6 +31,21 @@ defineProps<{
         </div>
         <div class="card-fighter__text">
             {{ fighter.name }}
+        </div>
+        <div class="card-fighter__actions">
+            <template
+                v-for="(actions, type) in fighter.actions"
+                :key="type"
+            >
+                <img
+                    v-for="action in actions"
+                    :key="action.name"
+                    :src="action.image"
+                    :alt="action.name"
+                    :class="{'card-fighter__action-icon--activated': action.activated}"
+                    class="card-fighter__action-icon"
+                />
+            </template>
         </div>
     </div>
 </template>
@@ -102,6 +117,23 @@ defineProps<{
         @include for-phone-only {
             padding: 3px;
             font-size: 0.8rem;
+        }
+    }
+
+    &__actions {
+        gap: 6px;
+        display: grid;
+        justify-content: center;
+        grid-template-columns: repeat(12, 1fr);
+    }
+
+    &__action-icon {
+        width: 100%;
+        object-fit: contain;
+        grid-column: 2 span;
+
+        &--activated {
+            filter: grayscale(100%);
         }
     }
 }

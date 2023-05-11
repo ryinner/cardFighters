@@ -6,6 +6,10 @@ export default abstract class {
     protected power: number;
     private haveBeenActivated: boolean;
 
+    public get activated () {
+        return this.haveBeenActivated;
+    }
+
     constructor (name: string, power: number, image: string) {
         this.name = name;
         this.power = power;
