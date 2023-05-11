@@ -6,7 +6,7 @@ export default abstract class {
     protected power: number;
     private haveBeenActivated: boolean;
 
-    public get activated () {
+    public get isActivated () {
         return this.haveBeenActivated;
     }
 

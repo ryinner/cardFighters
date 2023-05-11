@@ -42,7 +42,7 @@ defineProps<{
                     :key="action.name"
                     :src="action.image"
                     :alt="action.name"
-                    :class="{'card-fighter__action-icon--activated': action.activated}"
+                    :class="{'card-fighter__action-icon--activated': action.isActivated}"
                     class="card-fighter__action-icon"
                 />
             </template>
