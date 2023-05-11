@@ -1,5 +1,5 @@
 import sword from '../assets/free-icon-sword-65741.png';
-import type { ActionsTypes } from '../types/actions.type';
+import { ActionsTypes } from '../types/actions.type';
 import type { CardsFighters } from '../types/cardsFighters.types';
 import actionModel from './action.model';
 

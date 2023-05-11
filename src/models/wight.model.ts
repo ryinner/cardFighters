@@ -2,10 +2,10 @@ import actionsFactoryFunctional from '../functional/actionsFactory.functional';
 import type { FormedActions } from '../types/actionsFormed.type';
 import type { Card } from '../types/cards.type';
 
-export default class {
+export default abstract class {
     public readonly name: string;
     public readonly image: string;
-    public readonly actions: FormedActions[];
+    public readonly actions: FormedActions;
 
     public isAlive = true;
 
