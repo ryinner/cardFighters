@@ -123,6 +123,7 @@ defineProps<{
     &__actions {
         gap: 6px;
         display: grid;
+        margin-top: 1rem;
         justify-content: center;
         grid-template-columns: repeat(12, 1fr);
     }
