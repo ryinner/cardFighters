@@ -5,8 +5,7 @@ import actionModel from './action.model';
 
 export default class extends actionModel {
     constructor(power: number) {
-        super(ActionsTypes.heal, power);
-        this.image = heal;
+        super(ActionsTypes.heal, power, heal);
     }
 
     tryAction(target: CardsFighters): boolean {

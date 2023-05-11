@@ -5,8 +5,7 @@ import actionModel from './action.model';
 
 export default class extends actionModel {
     constructor(power: number) {
-        super(ActionsTypes.attack, power);
-        this.image = sword;
+        super(ActionsTypes.attack, power, sword);
     }
 
     tryAction(target: CardsFighters): boolean {

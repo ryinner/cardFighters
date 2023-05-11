@@ -2,13 +2,14 @@ import type { CardsFighters } from '../types/cardsFighters.types';
 
 export default abstract class {
     public name: string;
-    public abstract image: string;
+    public image: string;
     protected power: number;
     private haveBeenActivated: boolean;
 
-    constructor (name: string, power: number) {
+    constructor (name: string, power: number, image: string) {
         this.name = name;
         this.power = power;
+        this.image = image;
         this.haveBeenActivated = false;
     }
 
