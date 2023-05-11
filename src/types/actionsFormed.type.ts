@@ -1,10 +1,4 @@
-import attackModel from '../models/attack.model';
-import healModel from '../models/heal.model';
+import actionModel from '../models/action.model';
 import { ActionsTypes } from './actions.type';
 
-export type AvailableActions = attackModel | healModel;
-
-export interface FormedActions {
-    [ActionsTypes.attack]?: attackModel[];
-    [ActionsTypes.heal]?: healModel[];
-}
+export type FormedActions = Partial<Record<keyof typeof ActionsTypes, actionModel[]>>;

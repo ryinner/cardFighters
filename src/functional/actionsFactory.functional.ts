@@ -1,7 +1,8 @@
+import actionModel from '../models/action.model';
 import attackModel from '../models/attack.model';
 import healModel from '../models/heal.model';
 import { ActionsTypes, type Action, type AllClassesAction } from '../types/actions.type';
-import type { AvailableActions, FormedActions } from '../types/actionsFormed.type';
+import type { FormedActions } from '../types/actionsFormed.type';
 
 export default function (actions: Action<AllClassesAction>[]): FormedActions {
     const formedAction: FormedActions = {};
@@ -13,7 +14,7 @@ export default function (actions: Action<AllClassesAction>[]): FormedActions {
         }
         for (let index = 0; index < quantity; index++) {
             const power = action.power ?? 1;
-            let actionModel!: AvailableActions;
+            let actionModel!: actionModel;
             switch (action.name) {
                 case ActionsTypes.attack:
                     actionModel = new attackModel(power);
