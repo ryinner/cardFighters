@@ -5,6 +5,7 @@ import getRandomDeckFunctional from '../functional/getRandomDeck.functional';
 import { useUserStore } from '../state/user.state';
 import { CardsFighters } from '../types/cardsFighters.types';
 import CardFighter from './CardFighter.vue';
+import ThePlayerActionsPanel from './ThePlayerActionsPanel.vue';
 
 const userStore = useUserStore();
 
@@ -74,6 +75,7 @@ onMounted(initialize);
                 />
             </div>
         </div>
+        <ThePlayerActionsPanel :selected-card-fighter="selectedCardFighter" />
     </div>
 </template>
 
