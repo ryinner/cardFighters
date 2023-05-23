@@ -32,12 +32,13 @@ const initialize = () => {
 };
 
 const cardClickHandler = (cardFighter: CardsFighters, isPlayerCard: boolean) => {
-    if (typeof selectedCardFighter.value === 'undefined' && isPlayerCard) {
-        selectedCardFighter.value = cardFighter;
-        return;
-    }
     if (selectedCardFighter.value === cardFighter && isPlayerCard) {
         selectedCardFighter.value = undefined;
+        return;
+    }
+    if (isPlayerCard) {
+        selectedCardFighter.value = cardFighter;
+        return;
     }
 };
 

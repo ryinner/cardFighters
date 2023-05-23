@@ -42,7 +42,7 @@ export default function (actions: Action<AllClassesAction>[]): FormedActions <Al
             }
         }
     });
-    console.log(formedActions);
+
     if (!isFormedActionsValid(formedActions)) {
         throw new Error('No actions for cards');
     }
