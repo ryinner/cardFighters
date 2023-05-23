@@ -6,19 +6,19 @@ import healModel from '../models/heal.model';
 import { ActionsTypes, type Action, type AllClassesAction } from '../types/actions.type';
 import type { FormedActions } from '../types/actionsFormed.type';
 
-export default function (actions: Action<AllClassesAction>[]): FormedActions <ActionsTypes> {
-    let formedAction!: FormedActions<ActionsTypes>;
+export default function (actions: Action<AllClassesAction>[]): FormedActions <AllClassesAction> {
+    const formedActions: Partial<FormedActions<AllClassesAction>> = {};
     let image!: string;
 
     actions.forEach(action => {
-        const quantity = action.quantity ?? 1;
+        const { quantity = 1, power = 1, name } = action;
+
         if (quantity <= 0) {
             throw new Error('Actions quantity can\'t be less 1');
         }
         for (let index = 0; index < quantity; index++) {
-            const power = action.power ?? 1;
             let actionModel!: actionModel;
-            switch (action.name) {
+            switch (name) {
                 case ActionsTypes.attack:
                     actionModel = new attackModel(power);
                     image = sword;
@@ -28,14 +28,27 @@ export default function (actions: Action<AllClassesAction>[]): FormedActions <Ac
                     image = heal;
                     break;
             }
-            if (!formedAction[action.name] || !Array.isArray(formedAction[action.name])) {
-                formedAction[action.name] = { actions: [], image: image };
+
+            let formedActionByType = formedActions[name];
+            if (!formedActionByType) {
+                formedActions[name] = { actions: [], image: image };
+                formedActionByType = formedActions[name];
             }
-            formedAction[action.name].actions.push(actionModel);
-            if (!formedAction[action.name].actions.length) {
-                throw new Error('Cards actions length is zero or undefined');
+            if (formedActionByType) {
+                formedActionByType.actions.push(actionModel);
+                if (!formedActionByType.actions.length) {
+                    throw new Error('Cards actions length is zero or undefined');
+                }
             }
         }
     });
-    return formedAction;
+    console.log(formedActions);
+    if (!isFormedActionsValid(formedActions)) {
+        throw new Error('No actions for cards');
+    }
+    return formedActions;
+
+    function isFormedActionsValid(object: object): object is FormedActions <AllClassesAction> {
+        return Object.keys(object).length > 0;
+    }
 }
