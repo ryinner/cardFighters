@@ -34,13 +34,13 @@ defineProps<{
         </div>
         <div class="card-fighter__actions">
             <template
-                v-for="(actions, type) in fighter.actions"
+                v-for="(actionType, type) in fighter.actions"
                 :key="type"
             >
                 <img
-                    v-for="action in actions"
+                    v-for="action in actionType.actions"
                     :key="action.name"
-                    :src="action.image"
+                    :src="actionType.image"
                     :alt="action.name"
                     :class="{'card-fighter__action-icon--activated': action.isActivated}"
                     class="card-fighter__action-icon"

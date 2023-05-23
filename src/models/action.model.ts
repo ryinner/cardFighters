@@ -2,7 +2,6 @@ import type { CardsFighters } from '../types/cardsFighters.types';
 
 export default abstract class {
     public name: string;
-    public image: string;
     protected power: number;
     private haveBeenActivated: boolean;
 
@@ -10,10 +9,9 @@ export default abstract class {
         return this.haveBeenActivated;
     }
 
-    constructor (name: string, power: number, image: string) {
+    constructor (name: string, power: number) {
         this.name = name;
         this.power = power;
-        this.image = image;
         this.haveBeenActivated = false;
     }
 
