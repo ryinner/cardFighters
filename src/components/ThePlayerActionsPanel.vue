@@ -31,6 +31,7 @@ defineProps<{
     background-color: var(--background-on-page-color);
     box-shadow: 0 0 10px var(--primary-color);
     padding: 1rem 2rem;
+    z-index: 1;
 
     &-enter-active, &-leave-active {
         transition: 300ms ease all;
