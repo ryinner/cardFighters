@@ -55,11 +55,14 @@ defineProps<{
 
 .card-fighter {
     z-index: 1;
-    display: flex;
-    padding: 20px;
     position: relative;
+
+    padding: 20px;
+
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
+
     border: 1px solid;
 
     &--player {
@@ -90,6 +93,7 @@ defineProps<{
 
     &__image {
         width: 100%;
+        height: 100%;
         object-fit: contain;
     }
 
