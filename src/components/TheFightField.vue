@@ -3,6 +3,7 @@ import { nextTick, onMounted, ref, Ref } from 'vue';
 import cardsFactoryFunctional from '../functional/cardsFactory.functional';
 import getRandomDeckFunctional from '../functional/getRandomDeck.functional';
 import { useUserStore } from '../state/user.state';
+import { Action } from '../types/actionsFormed.type';
 import { CardsFighters } from '../types/cardsFighters.types';
 import CardFighter from './CardFighter.vue';
 import ThePlayerActionsPanel from './ThePlayerActionsPanel.vue';
@@ -13,6 +14,7 @@ const cardsSize = ref({ width: '0px', height: '0px' });
 const cardFightersPlayer: Ref<CardsFighters[]> = ref([]);
 const cardFightersEnemy: Ref<CardsFighters[]> = ref([]);
 const selectedCardFighter: Ref<CardsFighters | undefined> = ref();
+const selectedAction: Ref<Action | undefined> = ref();
 
 const initialize = () => {
     userStore.cardsRaw.forEach(cardRaw => {
@@ -32,12 +34,22 @@ const initialize = () => {
 };
 
 const cardClickHandler = (cardFighter: CardsFighters, isPlayerCard: boolean) => {
+    if (selectedAction.value) {
+        const availableAction = selectedAction.value.actions.find(action => !action.isActivated);
+        if (availableAction) {
+            availableAction.activate(cardFighter);
+            return;
+        }
+        selectedAction.value = undefined;
+    }
     if (selectedCardFighter.value === cardFighter && isPlayerCard) {
         selectedCardFighter.value = undefined;
+        selectedAction.value = undefined;
         return;
     }
     if (isPlayerCard) {
         selectedCardFighter.value = cardFighter;
+        selectedAction.value = undefined;
         return;
     }
 };
@@ -58,7 +70,7 @@ onMounted(initialize);
         <div class="fight-field__arena">
             <div class="fight-field__player">
                 <CardFighter
-                    v-for="fighter in cardFightersPlayer" 
+                    v-for="fighter in cardFightersPlayer"
                     :key="fighter.name"
                     :fighter="fighter"
                     :is-player="true"
@@ -76,7 +88,10 @@ onMounted(initialize);
                 />
             </div>
         </div>
-        <ThePlayerActionsPanel :selected-card-fighter="selectedCardFighter" />
+        <ThePlayerActionsPanel
+            v-model:selected-action="selectedAction"
+            :selected-card-fighter="selectedCardFighter"
+        />
     </div>
 </template>
 
@@ -87,7 +102,8 @@ onMounted(initialize);
     position: relative;
     grid-template-rows: 0.5fr 1fr;
 
-    &__arena,  &__graveyard{
+    &__arena,
+    &__graveyard {
         display: grid;
         gap: var(--default-gap);
         grid-template-columns: 1fr 1fr;
@@ -101,14 +117,16 @@ onMounted(initialize);
         grid-row: 2;
     }
 
-    &__player, &__enemy {
+    &__player,
+    &__enemy {
         gap: var(--default-gap);
         display: grid;
         grid-column: 1 span;
         grid-template-columns: 1fr 1fr 1fr;
     }
 
-    &__graveyard-player, &__graveyard-enemy {
+    &__graveyard-player,
+    &__graveyard-enemy {
         grid-column: 1 span;
     }
 }

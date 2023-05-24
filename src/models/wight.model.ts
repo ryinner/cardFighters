@@ -35,9 +35,6 @@ export default abstract class <ActionsType extends ActionsTypes> {
 
     public takeDamage(damage: number): void {
         this.hp -= damage;
-        if (this.hp <= 0) {
-            this.die();
-        }
     }
 
     public takeHeal (heal: number) {
@@ -48,6 +45,6 @@ export default abstract class <ActionsType extends ActionsTypes> {
 
     private die(): void {
         this.isAlive = false;
-        this.hp = 0;
+        this.healPoints = 0;
     }
 }

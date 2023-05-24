@@ -8,6 +8,9 @@ export default class extends actionModel {
     }
 
     tryAction(target: CardsFighters): boolean {
+        if (!target.isAlive) {
+            return false;
+        }
         target.takeHeal(this.power);
         return true;
     }

@@ -1,12 +1,18 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { MAX_ACTIONS_IN_CARD } from '../consts/cardsSettings.consts';
+import { Action } from '../types/actionsFormed.type';
 import { CardsFighters } from '../types/cardsFighters.types';
 import ActionIcon from './ActionIcon.vue';
 
 const props = defineProps<{
     selectedCardFighter?: CardsFighters;
 }>();
+
+// eslint-disable-next-line no-undef
+const selectedAction = defineModel<Action | undefined>('selectedAction', {
+    required: true
+});
 
 const freeSlotsForAction = () => computed(() => {
     let selectedItems = 0;
@@ -18,6 +24,14 @@ const freeSlotsForAction = () => computed(() => {
     }
     return MAX_ACTIONS_IN_CARD - selectedItems;
 });
+
+const actionClickHandler = (action: Action) => {
+    if (selectedAction.value === action) {
+        selectedAction.value = undefined;
+        return;
+    }
+    selectedAction.value = action;
+};
 </script>
 
 <template>
@@ -31,6 +45,8 @@ const freeSlotsForAction = () => computed(() => {
                 :key="type"
                 :action="action"
                 class="player-actions-panel__item"
+                :class="{'player-actions-panel__item--active': action === selectedAction}"
+                @click="actionClickHandler(action)"
             />
             <div
                 v-for="n in freeSlotsForAction"
@@ -63,13 +79,18 @@ const freeSlotsForAction = () => computed(() => {
         width: 100%;
         height: 100%;
 
-        flex: 0 1 4rem;
+        flex: 0 0 4rem;
 
         padding: 1rem;
 
-        border: 1px solid var(--primary-color);
-    
+        border: 1px solid;
+        border-color: var(--primary-color);
+
         grid-column: 1 span;
+
+        &--active {
+            border-color: var(--info-color);
+        }
     }
 
     &-enter-active,

@@ -7,7 +7,11 @@ const srcDir = path.join(appDir, 'src');
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [vue()],
+    plugins: [vue({
+        script: {
+            defineModel: true
+        }
+    })],
     resolve: {
         alias: {
             '@': srcDir
