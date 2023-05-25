@@ -1,6 +1,8 @@
 import actionsFactoryFunctional from '../functional/actionsFactory.functional';
+import formCardsEventHandlersObjectFunctional from '../functional/formCardsEventHandlersObject.functional';
 import { ActionsTypes } from '../types/actions.type';
 import type { FormedActions } from '../types/actionsFormed.type';
+import { CardsFightersEvents, type CardsFighterEventHandler, type CardsFightersEventsHandlers } from '../types/cardFightersEvents.types';
 import type { Card } from '../types/cards.type';
 
 export default abstract class <ActionsType extends ActionsTypes> {
@@ -13,6 +15,8 @@ export default abstract class <ActionsType extends ActionsTypes> {
     private readonly maxHealPoints: number;
     private healPoints: number;
 
+    private eventsHandlers!: CardsFightersEventsHandlers;
+
     public get hp (): number {
         return this.healPoints;
     }
@@ -22,6 +26,7 @@ export default abstract class <ActionsType extends ActionsTypes> {
             this.die();
         } else {
             this.healPoints = value > this.maxHealPoints ? this.maxHealPoints : value;
+            this.fireEvent(CardsFightersEvents.heal, value);
         }
     }
 
@@ -31,20 +36,35 @@ export default abstract class <ActionsType extends ActionsTypes> {
         this.name = cardRaw.name;
         this.image = cardRaw.image;
         this.actions = actionsFactoryFunctional(cardRaw.actions);
+
+        this.eventsHandlers = formCardsEventHandlersObjectFunctional();
     }
 
     public takeDamage(damage: number): void {
         this.hp -= damage;
+        this.fireEvent(CardsFightersEvents.takeDamage, damage);
     }
 
-    public takeHeal (heal: number) {
+    public takeHeal (heal: number): void {
         if (this.isAlive) {
             this.hp += heal;
+            this.fireEvent(CardsFightersEvents.heal, heal);
         }
+    }
+
+    public addHandler(event: CardsFightersEvents, handler: CardsFighterEventHandler): void {
+        this.eventsHandlers[event].push(handler);
+    }
+
+    private fireEvent(event: CardsFightersEvents, value?: boolean | number): void {
+        this.eventsHandlers[event].forEach(handler => {
+            handler(value);
+        });
     }
 
     private die(): void {
         this.isAlive = false;
         this.healPoints = 0;
+        this.fireEvent(CardsFightersEvents.die);
     }
 }
