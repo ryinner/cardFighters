@@ -58,6 +58,8 @@ const actionClickHandler = (action: Action) => {
 </template>
 
 <style lang="scss" scoped>
+@import '../style/mixins/media';
+
 .player-actions-panel {
     position: fixed;
     bottom: 1rem;
@@ -75,11 +77,17 @@ const actionClickHandler = (action: Action) => {
     display: flex;
     gap: var(--default-gap);
 
+    @include for-tablet {
+        bottom: 0;
+
+        padding: 0.5rem 1rem;
+    }
+
     &__item {
         width: 100%;
         height: 100%;
 
-        flex: 0 0 4rem;
+        flex-basis: 4rem;
 
         padding: 1rem;
 
@@ -87,6 +95,10 @@ const actionClickHandler = (action: Action) => {
         border-color: var(--primary-color);
 
         grid-column: 1 span;
+
+        @include for-tablet {
+            flex-basis: 2rem;
+        }
 
         &--active {
             border-color: var(--info-color);

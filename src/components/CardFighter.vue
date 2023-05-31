@@ -11,10 +11,12 @@ const props = defineProps<{
 
 const stateManager: Ref<CardsFightersEvents | false> = ref(false);
 
-props.fighter.addHandler(CardsFightersEvents.takeDamage, () => {
-    stateManager.value = CardsFightersEvents.takeDamage;
+Object.values(CardsFightersEvents).forEach(event => {
+    props.fighter.addHandler(event, () => {
+        stateManager.value = event;
 
-    resetStateManager();
+        resetStateManager();
+    });
 });
 
 const resetStateManager = () => {

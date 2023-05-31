@@ -5,6 +5,7 @@ import getRandomDeckFunctional from '../functional/getRandomDeck.functional';
 import { useUserStore } from '../state/user.state';
 import { Action } from '../types/actionsFormed.type';
 import { CardsFighters } from '../types/cardsFighters.types';
+import BaseGraveyard from './BaseGraveyard.vue';
 import CardFighter from './CardFighter.vue';
 import ThePlayerActionsPanel from './ThePlayerActionsPanel.vue';
 
@@ -60,12 +61,18 @@ onMounted(initialize);
 <template>
     <div class="fight-field">
         <div class="fight-field__graveyard">
-            <div class="fight-field__graveyard-player">
-                test
-            </div>
-            <div class="fight-field__graveyard-enemy">
-                test
-            </div>
+            <BaseGraveyard
+                class="fight-field__graveyard-player"
+                :is-player="true"
+                :cards-fighters="cardFightersPlayer"
+                :card-size="cardsSize"
+            />
+            <BaseGraveyard
+                class="fight-field__graveyard-enemy"
+                :is-player="false"
+                :cards-fighters="cardFightersEnemy"
+                :card-size="cardsSize"
+            />
         </div>
         <div class="fight-field__arena">
             <div class="fight-field__player">
@@ -87,11 +94,11 @@ onMounted(initialize);
                     @click="cardClickHandler(fighter, false)"
                 />
             </div>
+            <ThePlayerActionsPanel
+                v-model:selected-action="selectedAction"
+                :selected-card-fighter="selectedCardFighter"
+            />
         </div>
-        <ThePlayerActionsPanel
-            v-model:selected-action="selectedAction"
-            :selected-card-fighter="selectedCardFighter"
-        />
     </div>
 </template>
 
@@ -99,8 +106,6 @@ onMounted(initialize);
 .fight-field {
     gap: 1.5rem;
     display: grid;
-    position: relative;
-    grid-template-rows: 0.5fr 1fr;
 
     &__arena,
     &__graveyard {
@@ -109,12 +114,39 @@ onMounted(initialize);
         grid-template-columns: 1fr 1fr;
     }
 
-    &__graveyard {
-        grid-row: 1;
+    &__arena {
+        position: relative;
     }
 
-    &__arena {
-        grid-row: 2;
+
+    &__graveyard {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+
+        overflow: hidden;
+
+        width: 100%;
+
+        &-player,
+        &-enemy {
+            position: relative;
+
+            grid-column: 1 span;
+        }
+
+        &-player {
+            transform: translateX(-60%);
+
+            justify-self: flex-start;
+        }
+
+        &-enemy {
+            transform: translateX(60%);
+
+            justify-self: flex-end;
+        }
     }
 
     &__player,
@@ -124,10 +156,4 @@ onMounted(initialize);
         grid-column: 1 span;
         grid-template-columns: 1fr 1fr 1fr;
     }
-
-    &__graveyard-player,
-    &__graveyard-enemy {
-        grid-column: 1 span;
-    }
-}
-</style>
+}</style>
