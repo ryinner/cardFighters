@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { nextTick, onMounted, ref, Ref } from 'vue';
+import { computed, nextTick, onMounted, ref, Ref } from 'vue';
 import cardsFactoryFunctional from '../functional/cardsFactory.functional';
 import getRandomDeckFunctional from '../functional/getRandomDeck.functional';
 import { useUserStore } from '../state/user.state';
@@ -16,6 +16,9 @@ const cardFightersPlayer: Ref<CardsFighters[]> = ref([]);
 const cardFightersEnemy: Ref<CardsFighters[]> = ref([]);
 const selectedCardFighter: Ref<CardsFighters | undefined> = ref();
 const selectedAction: Ref<Action | undefined> = ref();
+
+const aliveFightersPlayer = computed(() => cardFightersPlayer.value.filter(fighter => fighter.isAlive));
+const aliveFightersEnemy = computed(() => cardFightersEnemy.value.filter(fighter => fighter.isAlive));
 
 const initialize = () => {
     userStore.cardsRaw.forEach(cardRaw => {
@@ -77,7 +80,7 @@ onMounted(initialize);
         <div class="fight-field__arena">
             <div class="fight-field__player">
                 <CardFighter
-                    v-for="fighter in cardFightersPlayer"
+                    v-for="fighter in aliveFightersPlayer"
                     :key="fighter.name"
                     :fighter="fighter"
                     :is-player="true"
@@ -87,7 +90,7 @@ onMounted(initialize);
             </div>
             <div class="fight-field__enemy">
                 <CardFighter
-                    v-for="fighter in cardFightersEnemy"
+                    v-for="fighter in aliveFightersEnemy"
                     :key="fighter.name"
                     :fighter="fighter"
                     :is-player="false"

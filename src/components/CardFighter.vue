@@ -27,7 +27,6 @@ const resetStateManager = () => {
 <template>
     <Transition name="card-fighter-dying">
         <div
-            v-if="fighter.isAlive"
             ref="cardFighterElement"
             class="card-fighter"
             :class="{

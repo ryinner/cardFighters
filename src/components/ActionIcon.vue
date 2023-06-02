@@ -18,13 +18,21 @@ const availableActionsCount = computed(() => props.action.actions.filter(action 
             class="action-icon__image"
             :src="action.image"
         />
-        {{ availableActionsCount }}
+        <span class="action-icon__count">
+            {{ availableActionsCount }}
+        </span>
     </div>
 </template>
 
 <style lang="scss" scoped>
 .action-icon {
     display: flex;
+    position: relative;
+
+    &--disabled {
+        filter: brightness(0) grayscale(1);
+        pointer-events: none;
+    }
 
     &__image {
         width: 100%;
@@ -32,9 +40,12 @@ const availableActionsCount = computed(() => props.action.actions.filter(action 
         object-fit: fill;
     }
 
-    &--disabled {
-        filter: brightness(0) grayscale(1);
-        pointer-events: none;
+    &__count {
+        position: absolute;
+        top: 0.2rem;
+        right: 0.5rem;
+
+        font-size: 1.2rem;
     }
 }
 </style>
