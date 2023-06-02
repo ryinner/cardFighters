@@ -11,9 +11,9 @@ Basic things what should be in project:
 This is exactly what I want to code:
 
 - [:heavy_check_mark:] MainMenu;
-- [:x:] CardsUI \[Card, Action, Graveyard\];
+- [:heavy_check_mark:] CardsUI \[Card, Action, Graveyard\];
 - [:heavy_check_mark:] CardsTypes: \[DD, Healer\];
-- [:x:] CardsActions: \[Spawn, Heal, TakeDamage, Attack, Die\];
+- [:heavy_check_mark:] CardsActions: \[Spawn, Heal, TakeDamage, Attack, Die\];
 - [:x:] SimpleEnemyAi;
 - [:x:] Fights.
 
@@ -23,3 +23,15 @@ This is what I would like to try to code:
 - [:x:] CardsAction: \[Resurrect\];
 - [:x:] WebSocketMultiplayerGames;
 - [:x:] GoodUI.
+
+## Retrospective
+
+This section is designed to evaluate the development, identify the good and bad sides.
+
+Good things:
+
+- [:heavy_plus_sign:] ts;
+
+Bad things:
+
+- [:heavy_minus_sign:] naming;
