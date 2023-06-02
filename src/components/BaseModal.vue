@@ -59,7 +59,7 @@ const emit = defineEmits<{
         border-bottom: 1px solid var(--ink-color);
     }
 
-    &__boyd {
+    &__body {
         padding: 1rem 0;
     }
 

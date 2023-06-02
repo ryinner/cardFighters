@@ -4,6 +4,12 @@
     }
 }
 
+@mixin for-phone-landscape {
+    @media screen and (max-height: 580px) and (orientation: landscape) {
+        @content;
+    }
+}
+
 @mixin for-tablet {
     @media screen and (max-width: 1200px) {
         @content;

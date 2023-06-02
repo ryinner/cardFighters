@@ -1,13 +1,14 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 import { MAX_TOUR_TIME_IN_MINUTES } from '../consts/cardsSettings.consts';
+import timeFormatFunctional from '../functional/timeFormat.functional';
 
-export const useFightState = defineStore('fight', () => {
+export const useFightStore = defineStore('fight', () => {
     const tour = ref({
         number: 0,
         timeLeft: 0,
-        minutes: 0,
-        seconds: 0
+        minutes: '0',
+        seconds: '0'
     });
 
     const isPlayer = computed(() => tour.value.number % 2 !== 0);
@@ -21,8 +22,8 @@ export const useFightState = defineStore('fight', () => {
                 clearInterval(tourTimer);
                 startNewTour();
             } else {
-                tour.value.minutes = Math.trunc(tour.value.timeLeft / 60);
-                tour.value.seconds = tour.value.timeLeft % 60;
+                tour.value.minutes = timeFormatFunctional(tour.value.timeLeft / 60);
+                tour.value.seconds = timeFormatFunctional(tour.value.timeLeft % 60);
                 --tour.value.timeLeft;
             }
         }, 1000);

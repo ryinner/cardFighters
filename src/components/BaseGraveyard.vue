@@ -63,7 +63,7 @@ const deadFighters = computed(() => props.cardsFighters.filter(fighter => !fight
 
     &__fighters {
         display: grid;
-
+        gap: var(--default-gap);
         grid-template-columns: repeat(12, 1fr);
     }
 

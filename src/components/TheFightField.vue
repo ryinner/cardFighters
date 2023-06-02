@@ -1,15 +1,19 @@
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, Ref } from 'vue';
 import cardsFactoryFunctional from '../functional/cardsFactory.functional';
+import countAvailableActionsFunctional from '../functional/countAvailableActions.functional';
 import getRandomDeckFunctional from '../functional/getRandomDeck.functional';
+import { useFightStore } from '../state/fight.state';
 import { useUserStore } from '../state/user.state';
 import { Action } from '../types/actionsFormed.type';
 import { CardsFighters } from '../types/cardsFighters.types';
 import BaseGraveyard from './BaseGraveyard.vue';
 import CardFighter from './CardFighter.vue';
 import ThePlayerActionsPanel from './ThePlayerActionsPanel.vue';
+import TheTourInformation from './TheTourInformation.vue';
 
 const userStore = useUserStore();
+const fightStore = useFightStore();
 
 const cardsSize = ref({ width: '0px', height: '0px' });
 const cardFightersPlayer: Ref<CardsFighters[]> = ref([]);
@@ -34,15 +38,22 @@ const initialize = () => {
             cardsSize.value.height = `${clientWidth}px`;
             cardsSize.value.width = `${clientHeight}px`;
         }
+        fightStore.startNewTour();
     });
 };
 
 const cardClickHandler = (cardFighter: CardsFighters, isPlayerCard: boolean) => {
+    if (!fightStore.isPlayer) {
+        return;
+    }
     if (selectedAction.value) {
         const availableAction = selectedAction.value.actions.find(action => !action.isActivated);
         if (availableAction) {
             availableAction.activate(cardFighter);
             return;
+        }
+        if (countAvailableActionsFunctional(cardFightersPlayer.value) <= 0) {
+            fightStore.endTour();
         }
         selectedAction.value = undefined;
     }
@@ -63,6 +74,7 @@ onMounted(initialize);
 
 <template>
     <div class="fight-field">
+        <TheTourInformation />
         <div class="fight-field__graveyard">
             <BaseGraveyard
                 class="fight-field__graveyard-player"
