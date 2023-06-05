@@ -10,8 +10,6 @@ export default abstract class <ActionsType extends ActionsTypes> {
     public readonly image: string;
     public readonly actions: FormedActions<ActionsType>;
 
-    public isAlive = true;
-
     private readonly maxHealPoints: number;
     private healPoints: number;
 
@@ -28,6 +26,10 @@ export default abstract class <ActionsType extends ActionsTypes> {
             this.healPoints = value > this.maxHealPoints ? this.maxHealPoints : value;
             this.fireEvent(CardsFightersEvents.heal, value);
         }
+    }
+
+    public get isAlive (): boolean {
+        return this.hp > 0;
     }
 
     constructor (cardRaw: Card) {
@@ -56,6 +58,12 @@ export default abstract class <ActionsType extends ActionsTypes> {
         this.eventsHandlers[event].push(handler);
     }
 
+    public clearHandlers(): void {
+        (<CardsFightersEvents[]> Object.keys(this.eventsHandlers)).forEach((events) => {
+            this.eventsHandlers[events] = [];
+        });
+    }
+
     private fireEvent(event: CardsFightersEvents, value?: boolean | number): void {
         this.eventsHandlers[event].forEach(handler => {
             handler(value);
@@ -63,7 +71,6 @@ export default abstract class <ActionsType extends ActionsTypes> {
     }
 
     private die(): void {
-        this.isAlive = false;
         this.healPoints = 0;
         this.fireEvent(CardsFightersEvents.die);
     }

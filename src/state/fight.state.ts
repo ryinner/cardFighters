@@ -27,7 +27,7 @@ export const useFightStore = defineStore('fight', () => {
 
         tourTimer = setInterval(() => {
             if (tour.value.timeLeft <= 0) {
-                clearInterval(tourTimer);
+                endTour();
                 startNewTour();
             } else {
                 tour.value.minutes = timeFormatFunctional(tour.value.timeLeft / 60);

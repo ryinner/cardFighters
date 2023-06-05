@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Ref, ref } from 'vue';
+import { Ref, onMounted, onUnmounted, ref } from 'vue';
 import { CardsFightersEvents } from '../types/cardFightersEvents.types';
 import { CardsFighters } from '../types/cardsFighters.types';
 
@@ -11,17 +11,26 @@ const props = defineProps<{
 
 const stateManager: Ref<CardsFightersEvents | false> = ref(false);
 
-Object.values(CardsFightersEvents).forEach(event => {
-    props.fighter.addHandler(event, () => {
-        stateManager.value = event;
+const setHandlers = () => {
+    Object.values(CardsFightersEvents).forEach(event => {
+        props.fighter.addHandler(event, () => {
+            stateManager.value = event;
 
-        resetStateManager();
+            resetStateManager();
+        });
     });
-});
+};
 
 const resetStateManager = () => {
     setTimeout(() => { stateManager.value = false; }, 1000);
 };
+
+const cleanMemory = () => {
+    props.fighter.clearHandlers();
+};
+
+onMounted(setHandlers);
+onUnmounted(cleanMemory);
 </script>
 
 <template>

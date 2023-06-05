@@ -60,6 +60,7 @@ const cardClickHandler = (cardFighter: CardsFighters, isPlayerCard: boolean) => 
         }
         if (countAvailableActionsFunctional(cardFightersPlayer.value) <= 0) {
             fightStore.endTour();
+            fightStore.startNewTour();
         }
         selectedAction.value = undefined;
     }
