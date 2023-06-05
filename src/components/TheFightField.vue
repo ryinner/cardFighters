@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, ref, Ref } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, ref, Ref, watch } from 'vue';
+import actionReactivateFunctional from '../functional/actionReactivate.functional';
 import cardsFactoryFunctional from '../functional/cardsFactory.functional';
 import countAvailableActionsFunctional from '../functional/countAvailableActions.functional';
 import getRandomDeckFunctional from '../functional/getRandomDeck.functional';
@@ -38,8 +39,13 @@ const initialize = () => {
             cardsSize.value.height = `${clientWidth}px`;
             cardsSize.value.width = `${clientHeight}px`;
         }
+        fightStore.setInitialValue();
         fightStore.startNewTour();
     });
+};
+
+const destroy = () => {
+    fightStore.endGame();
 };
 
 const cardClickHandler = (cardFighter: CardsFighters, isPlayerCard: boolean) => {
@@ -70,6 +76,12 @@ const cardClickHandler = (cardFighter: CardsFighters, isPlayerCard: boolean) => 
 };
 
 onMounted(initialize);
+onUnmounted(destroy);
+
+watch(
+    () => fightStore.isPlayer,
+    () => { actionReactivateFunctional(fightStore.isPlayer ? cardFightersPlayer.value : cardFightersEnemy.value); }
+);
 </script>
 
 <template>

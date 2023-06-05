@@ -163,7 +163,7 @@ const resetStateManager = () => {
         grid-column: 2 span;
 
         &--activated {
-            filter: grayscale(100%);
+            filter: brightness(0);
         }
     }
 

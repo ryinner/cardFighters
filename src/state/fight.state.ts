@@ -4,20 +4,28 @@ import { MAX_TOUR_TIME_IN_MINUTES } from '../consts/cardsSettings.consts';
 import timeFormatFunctional from '../functional/timeFormat.functional';
 
 export const useFightStore = defineStore('fight', () => {
-    const tour = ref({
+    const initialValue = {
         number: 0,
         timeLeft: 0,
         minutes: '0',
         seconds: '0'
-    });
+    };
+
+    const tour = ref({...initialValue});
+
+    let tourTimer!: NodeJS.Timer | number;
 
     const isPlayer = computed(() => tour.value.number % 2 !== 0);
+    
+    const setInitialValue = () => {
+        tour.value = {...initialValue};
+    };
 
     const startNewTour = () => {
         ++tour.value.number;
         tour.value.timeLeft = MAX_TOUR_TIME_IN_MINUTES * 60;
 
-        const tourTimer = setInterval(() => {
+        tourTimer = setInterval(() => {
             if (tour.value.timeLeft <= 0) {
                 clearInterval(tourTimer);
                 startNewTour();
@@ -30,13 +38,20 @@ export const useFightStore = defineStore('fight', () => {
     };
 
     const endTour = () => {
+        clearInterval(tourTimer);
         tour.value.timeLeft = 0;
+    };
+
+    const endGame = () => {
+        clearInterval(tourTimer);
     };
 
     return {
         tour,
         isPlayer,
+        setInitialValue,
         startNewTour,
-        endTour
+        endTour,
+        endGame
     };
 });
