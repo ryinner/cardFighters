@@ -10,7 +10,7 @@ export default abstract class <ActionsType extends ActionsTypes> {
     public readonly image: string;
     public readonly actions: FormedActions<ActionsType>;
 
-    private readonly maxHealPoints: number;
+    public readonly maxHealPoints: number;
     private healPoints: number;
 
     private eventsHandlers!: CardsFightersEventsHandlers;

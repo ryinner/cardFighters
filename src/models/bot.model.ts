@@ -3,11 +3,12 @@ import type { CardsFighters } from '../types/cardsFighters.types';
 import actionModel from './action.model';
 import attackModel from './attack.model';
 import healModel from './heal.model';
+import healerModel from './healer.model';
 
 export default class {
     private readonly cardHealPowerPriority: number;
     private readonly cardAttackPowerPriority: number;
-    private readonly cardLeftHpPowerPriority: number;
+    private readonly cardLeftHpPriority: number;
 
     private readonly botCards: CardsFighters[];
     private readonly playersCards: CardsFighters[];
@@ -15,7 +16,7 @@ export default class {
     constructor (botSettings: BotSettings) {
         this.cardHealPowerPriority = botSettings.healPower;
         this.cardAttackPowerPriority = botSettings.attackPower;
-        this.cardLeftHpPowerPriority = botSettings.leftHp;
+        this.cardLeftHpPriority = botSettings.leftHp;
         this.botCards = botSettings.botCards;
         this.playersCards = botSettings.playerCards;
     }
@@ -42,36 +43,26 @@ export default class {
     }
 
     private getHealTarget(): CardsFighters {
-        const aliveBotsFighters = this.botCards.filter(fighter => fighter.isAlive);
+        const target = this.getAlive(this.botCards).sort((a, b) => (b.maxHealPoints - b.hp) - (a.maxHealPoints - a.hp));
 
-        return aliveBotsFighters[0];
+        return target[0];
     }
 
     private getAttackTarget(): CardsFighters {
-        const alivePlayersFighters = this.playersCards.filter(fighter => fighter.isAlive);
-        const sorted = alivePlayersFighters.sort((leftFighter, rightFighter) => {
-            const sort = { hpDeference: 0, attackDeference: 0, canHealDeference: 0 };
-            sort.hpDeference = leftFighter.hp - rightFighter.hp;
-            sort.attackDeference = leftFighter.actions.attack.actions.reduce((accum, action) => accum += action.power, 0) - rightFighter.actions.attack.actions.reduce((accum, action) => accum += action.power, 0);
-            const isLeftHealer = leftFighter instanceof healModel;
-            const isRightHealer = rightFighter instanceof healModel;
+        const alivePlayersFighters = this.getAlive(this.playersCards);
 
-            if (!isLeftHealer && isRightHealer) {
-                sort.canHealDeference = 0;
-            }
-            if (isLeftHealer && !isRightHealer) {
-                sort.canHealDeference = 1;
-            }
+        const map = alivePlayersFighters.map(fighter => {
+            const attackPower = fighter.actions.attack.actions.reduce((accum, action) => accum += action.power, 0);
+            const healPower = fighter instanceof healerModel ? fighter.actions.heal.actions.reduce((accum, action) => accum += action.power, 0) : 0;
 
-            let result!: number;
-
-            if (sort.hpDeference) {
-                result = this.cardHealPowerPriority;
-            }
-
-            return result;
+            const priority = this.cardAttackPowerPriority * attackPower + this.cardLeftHpPriority * fighter.hp + this.cardHealPowerPriority * healPower;
+            return { fighter, priority: priority };
         });
 
-        return sorted[0];
+        return map.sort((a, b) => b.priority - a.priority)[0].fighter;
+    }
+
+    private getAlive(fighters: CardsFighters[]): CardsFighters[] {
+        return fighters.filter(fighter => fighter.isAlive);
     }
 }
