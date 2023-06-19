@@ -4,6 +4,7 @@ import actionReactivateFunctional from '../functional/actionReactivate.functiona
 import cardsFactoryFunctional from '../functional/cardsFactory.functional';
 import countAvailableActionsFunctional from '../functional/countAvailableActions.functional';
 import getRandomDeckFunctional from '../functional/getRandomDeck.functional';
+import botModel from '../models/bot.model';
 import { useFightStore } from '../state/fight.state';
 import { useUserStore } from '../state/user.state';
 import { Action } from '../types/actionsFormed.type';
@@ -16,6 +17,7 @@ import TheTourInformation from './TheTourInformation.vue';
 const userStore = useUserStore();
 const fightStore = useFightStore();
 
+
 const cardsSize = ref({ width: '0px', height: '0px' });
 const cardFightersPlayer: Ref<CardsFighters[]> = ref([]);
 const cardFightersEnemy: Ref<CardsFighters[]> = ref([]);
@@ -24,6 +26,8 @@ const selectedAction: Ref<Action | undefined> = ref();
 
 const aliveFightersPlayer = computed(() => cardFightersPlayer.value.filter(fighter => fighter.isAlive));
 const aliveFightersEnemy = computed(() => cardFightersEnemy.value.filter(fighter => fighter.isAlive));
+
+const bot = new botModel({ healPower: 3, leftHp: 1.25, attackPower: 1, playerCards: cardFightersPlayer.value, botCards: cardFightersEnemy.value });
 
 const initialize = () => {
     userStore.cardsRaw.forEach(cardRaw => {
@@ -81,7 +85,14 @@ onUnmounted(destroy);
 
 watch(
     () => fightStore.isPlayer,
-    () => { actionReactivateFunctional(fightStore.isPlayer ? cardFightersPlayer.value : cardFightersEnemy.value); }
+    () => { 
+        if (fightStore.isPlayer) {
+            actionReactivateFunctional(cardFightersPlayer.value);
+        } else {
+            actionReactivateFunctional(cardFightersEnemy.value);
+            bot.makeActions();
+        }
+    }
 );
 </script>
 

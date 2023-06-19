@@ -23,9 +23,9 @@ export default class {
 
     public makeActions (): void {
         this.botCards.forEach(fighter => {
-            Object.values(fighter.actions).forEach(actionType => {
-                actionType.actions.forEach(action => {
-                    this.getTarget(action);
+            Object.values(fighter.actions).forEach((actionType, typeIndex) => {
+                actionType.actions.forEach((action, index) => {
+                    setTimeout(() => this.getTarget(action), (typeIndex + index) * 1000);
                 });
             });
         });
