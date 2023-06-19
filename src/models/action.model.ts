@@ -2,7 +2,7 @@ import type { CardsFighters } from '../types/cardsFighters.types';
 
 export default abstract class {
     public name: string;
-    protected power: number;
+    public power: number;
     private haveBeenActivated: boolean;
 
     public get isActivated () {
