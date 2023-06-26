@@ -1,4 +1,5 @@
 import { DEFAULT_TIME_BETWEEN_BOT_ACTIONS } from '../consts/cardsSettings.consts';
+import getAllActionsPowerFunctional from '../functional/getAllActionsPower.functional';
 import type { BotSettings } from '../types/bot.type';
 import type { CardsFighters } from '../types/cardsFighters.types';
 import actionModel from './action.model';
@@ -57,8 +58,8 @@ export default class {
         const alivePlayersFighters = this.getAlive(this.playersCards);
 
         const map = alivePlayersFighters.map(fighter => {
-            const attackPower = fighter.actions.attack.actions.reduce((accum, action) => accum += action.power, 0);
-            const healPower = fighter instanceof healerModel ? fighter.actions.heal.actions.reduce((accum, action) => accum += action.power, 0) : 0;
+            const attackPower = getAllActionsPowerFunctional(fighter.actions.attack.actions);
+            const healPower = fighter instanceof healerModel ? getAllActionsPowerFunctional(fighter.actions.heal.actions) : 0;
 
             const priority = this.cardAttackPowerPriority * attackPower + this.cardLeftHpPriority * fighter.hp + this.cardHealPowerPriority * healPower;
             return { fighter, priority: priority };
