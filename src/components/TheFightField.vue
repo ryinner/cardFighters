@@ -62,7 +62,7 @@ const cardClickHandler = (cardFighter: CardsFighters, isPlayerCard: boolean) => 
             availableAction.activate(cardFighter);
             return;
         }
-        if (countAvailableActionsFunctional(cardFightersPlayer.value) <= 0) {
+        if (countAvailableActionsFunctional(aliveFightersPlayer.value) <= 0) {
             fightStore.endTour();
             fightStore.startNewTour();
         }
@@ -85,12 +85,12 @@ onUnmounted(destroy);
 
 watch(
     () => fightStore.isPlayer,
-    () => { 
+    async () => { 
         if (fightStore.isPlayer) {
             actionReactivateFunctional(cardFightersPlayer.value);
         } else {
             actionReactivateFunctional(cardFightersEnemy.value);
-            bot.makeActions();
+            await bot.makeActions();
         }
     }
 );
