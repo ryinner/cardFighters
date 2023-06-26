@@ -1,3 +1,4 @@
+import { DEFAULT_TIME_BETWEEN_BOT_ACTIONS } from '../consts/cardsSettings.consts';
 import type { BotSettings } from '../types/bot.type';
 import type { CardsFighters } from '../types/cardsFighters.types';
 import actionModel from './action.model';
@@ -27,7 +28,7 @@ export default class {
                 Object.values(fighter.actions).forEach((actionType, typeIndex) => {
                     actionType.actions.forEach(async (action, index) => {
                         await new Promise(resolve => {
-                            setTimeout(() => { this.getTarget(action); resolve(true); }, (typeIndex + index) * 1500);
+                            setTimeout(() => { this.getTarget(action); resolve(true); }, (typeIndex + index) * DEFAULT_TIME_BETWEEN_BOT_ACTIONS);
                         });
                     });
                 });

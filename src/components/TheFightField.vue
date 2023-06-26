@@ -17,7 +17,6 @@ import TheTourInformation from './TheTourInformation.vue';
 const userStore = useUserStore();
 const fightStore = useFightStore();
 
-
 const cardsSize = ref({ width: '0px', height: '0px' });
 const cardFightersPlayer: Ref<CardsFighters[]> = ref([]);
 const cardFightersEnemy: Ref<CardsFighters[]> = ref([]);
@@ -43,8 +42,7 @@ const initialize = () => {
             cardsSize.value.height = `${clientWidth}px`;
             cardsSize.value.width = `${clientHeight}px`;
         }
-        fightStore.setInitialValue();
-        fightStore.startNewTour();
+        fightStore.startGame();
     });
 };
 

@@ -42,6 +42,11 @@ export const useFightStore = defineStore('fight', () => {
         tour.value.timeLeft = 0;
     };
 
+    const startGame = () => {
+        setInitialValue();
+        startNewTour();
+    };
+
     const endGame = () => {
         clearInterval(tourTimer);
     };
@@ -52,6 +57,7 @@ export const useFightStore = defineStore('fight', () => {
         setInitialValue,
         startNewTour,
         endTour,
+        startGame,
         endGame
     };
 });
