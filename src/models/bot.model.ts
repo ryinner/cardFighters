@@ -23,17 +23,18 @@ export default class {
     }
 
     public async makeActions (): Promise<void> {
-        this.botCards.forEach(fighter => {
+        for (const fighter of this.botCards) {
             if (fighter.isAlive) {
-                Object.values(fighter.actions).forEach((actionType, typeIndex) => {
-                    actionType.actions.forEach(async (action, index) => {
+                const actions = Object.values(fighter.actions);
+                for (const actionType of actions) {
+                    for (const action of actionType.actions) {
                         await new Promise(resolve => {
-                            setTimeout(() => { this.getTarget(action); resolve(true); }, (typeIndex + index) * DEFAULT_TIME_BETWEEN_BOT_ACTIONS);
+                            setTimeout(() => { this.getTarget(action); resolve(true); }, DEFAULT_TIME_BETWEEN_BOT_ACTIONS);
                         });
-                    });
-                });
+                    }
+                }
             }
-        });
+        }
     }
 
     private getTarget (action: actionModel): void {
