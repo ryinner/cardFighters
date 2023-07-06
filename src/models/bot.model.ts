@@ -1,11 +1,10 @@
 import { DEFAULT_TIME_BETWEEN_BOT_ACTIONS } from '../consts/cardsSettings.consts';
-import getAllActionsPowerFunctional from '../functional/getAllActionsPower.functional';
+import getAbstractPowerLevelFunctional from '../functional/getAbstractPowerLevel.functional.';
 import type { BotSettings } from '../types/bot.type';
 import type { CardsFighters } from '../types/cardsFighters.types';
 import actionModel from './action.model';
 import attackModel from './attack.model';
 import healModel from './heal.model';
-import healerModel from './healer.model';
 
 export default class {
     private readonly cardHealPowerPriority: number;
@@ -49,19 +48,23 @@ export default class {
     }
 
     private getHealTarget(): CardsFighters {
-        const target = this.getAlive(this.botCards).sort((a, b) => (b.maxHealPoints - b.hp) - (a.maxHealPoints - a.hp));
+        const map: { fighter: CardsFighters; priority: number }[] = [];
+        this.botCards.forEach(fighter => {
+            if (fighter.isAlive && fighter.maxHealPoints !== fighter.hp) {
+                const priority = getAbstractPowerLevelFunctional(fighter, { healPower: this.cardHealPowerPriority, attackPower: this.cardAttackPowerPriority, leftHp: this.cardLeftHpPriority });
 
-        return target[0];
+                map.push({ fighter, priority});
+            }
+        });
+
+        return map.sort((a, b) => b.priority - a.priority)[0].fighter;
     }
 
     private getAttackTarget(): CardsFighters {
         const alivePlayersFighters = this.getAlive(this.playersCards);
 
         const map = alivePlayersFighters.map(fighter => {
-            const attackPower = getAllActionsPowerFunctional(fighter.actions.attack.actions);
-            const healPower = fighter instanceof healerModel ? getAllActionsPowerFunctional(fighter.actions.heal.actions) : 0;
-
-            const priority = this.cardAttackPowerPriority * attackPower + this.cardLeftHpPriority * fighter.hp + this.cardHealPowerPriority * healPower;
+            const priority = getAbstractPowerLevelFunctional(fighter, { healPower: this.cardHealPowerPriority, attackPower: this.cardAttackPowerPriority, leftHp: this.cardLeftHpPriority });
             return { fighter, priority: priority };
         });
 

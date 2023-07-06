@@ -89,6 +89,7 @@ watch(
         } else {
             actionReactivateFunctional(cardFightersEnemy.value);
             await bot.makeActions();
+            fightStore.startNewTour();
         }
     }
 );

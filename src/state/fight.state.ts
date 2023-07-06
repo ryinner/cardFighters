@@ -25,6 +25,10 @@ export const useFightStore = defineStore('fight', () => {
         ++tour.value.number;
         tour.value.timeLeft = MAX_TOUR_TIME_IN_MINUTES * 60;
 
+        if (tourTimer) {
+            clearInterval(tourTimer);
+        }
+
         tourTimer = setInterval(() => {
             if (tour.value.timeLeft <= 0) {
                 endTour();
