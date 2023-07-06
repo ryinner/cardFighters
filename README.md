@@ -35,3 +35,5 @@ Good things:
 Bad things:
 
 - [:heavy_minus_sign:] naming;
+- [:heavy_minus_sign:] bad ts interfaces, too much context;
+- [:heavy_minus_sign:] a lot of time between commits;
