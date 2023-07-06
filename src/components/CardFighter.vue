@@ -176,12 +176,6 @@ onUnmounted(cleanMemory);
         }
     }
 
-    &-dying {
-        &-leave-active {
-            animation: damaged 1s;
-        }
-    }
-
     &--damaged {
         animation: damaged 1s ease-out;
     }

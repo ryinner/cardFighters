@@ -114,23 +114,27 @@ watch(
         </div>
         <div class="fight-field__arena">
             <div class="fight-field__player">
-                <CardFighter
-                    v-for="fighter in aliveFightersPlayer"
-                    :key="fighter.name"
-                    :fighter="fighter"
-                    :is-player="true"
-                    :is-selected="fighter === selectedCardFighter"
-                    @click="cardClickHandler(fighter, true)"
-                />
+                <TransitionGroup name="fight-field__list">
+                    <CardFighter
+                        v-for="fighter in aliveFightersPlayer"
+                        :key="fighter.name"
+                        :fighter="fighter"
+                        :is-player="true"
+                        :is-selected="fighter === selectedCardFighter"
+                        @click="cardClickHandler(fighter, true)"
+                    />
+                </TransitionGroup>
             </div>
             <div class="fight-field__enemy">
-                <CardFighter
-                    v-for="fighter in aliveFightersEnemy"
-                    :key="fighter.name"
-                    :fighter="fighter"
-                    :is-player="false"
-                    @click="cardClickHandler(fighter, false)"
-                />
+                <TransitionGroup name="fight-field__list">
+                    <CardFighter
+                        v-for="fighter in aliveFightersEnemy"
+                        :key="fighter.name"
+                        :fighter="fighter"
+                        :is-player="false"
+                        @click="cardClickHandler(fighter, false)"
+                    />
+                </TransitionGroup>
             </div>
             <ThePlayerActionsPanel
                 v-model:selected-action="selectedAction"
@@ -194,4 +198,19 @@ watch(
         grid-column: 1 span;
         grid-template-columns: 1fr 1fr 1fr;
     }
-}</style>
+
+    &__list {
+        &-enter-active,
+        &-leave-active {
+            transition: all 0.5s ease;
+        }
+        &-enter-from,
+        &-leave-to {
+            opacity: 0;
+        }
+        &-enter-from {
+            transform: translate(-2rem, 2rem);
+        }
+    }
+}
+</style>
