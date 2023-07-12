@@ -11,6 +11,7 @@ import { Action } from '../types/actionsFormed.type';
 import { CardsFighters } from '../types/cardsFighters.types';
 import BaseGraveyard from './BaseGraveyard.vue';
 import CardFighter from './CardFighter.vue';
+import EndGameScreen from './EndGameScreen.vue';
 import ThePlayerActionsPanel from './ThePlayerActionsPanel.vue';
 import TheTourInformation from './TheTourInformation.vue';
 
@@ -25,6 +26,7 @@ const selectedAction: Ref<Action | undefined> = ref();
 
 const aliveFightersPlayer = computed(() => cardFightersPlayer.value.filter(fighter => fighter.isAlive));
 const aliveFightersEnemy = computed(() => cardFightersEnemy.value.filter(fighter => fighter.isAlive));
+const gameEnd = computed(() => aliveFightersPlayer.value.length === 0 || aliveFightersEnemy.value.length === 0);
 
 const bot = new botModel({ healPower: 3, leftHp: 1.25, attackPower: 1, playerCards: cardFightersPlayer.value, botCards: cardFightersEnemy.value });
 
@@ -78,6 +80,12 @@ const cardClickHandler = (cardFighter: CardsFighters, isPlayerCard: boolean) => 
     }
 };
 
+const endGame = () => {
+    if (gameEnd.value) {
+        fightStore.endGame();
+    }
+};
+
 onMounted(initialize);
 onUnmounted(destroy);
 
@@ -92,6 +100,15 @@ watch(
             fightStore.startNewTour();
         }
     }
+);
+
+watch(
+    () => aliveFightersPlayer.value.length,
+    endGame
+);
+watch(
+    () => aliveFightersEnemy.value.length,
+    endGame
 );
 </script>
 
@@ -141,6 +158,10 @@ watch(
                 :selected-card-fighter="selectedCardFighter"
             />
         </div>
+        <EndGameScreen
+            :game-end="gameEnd"
+            :is-win="aliveFightersPlayer > aliveFightersEnemy"
+        />
     </div>
 </template>
 
