@@ -1,0 +1,1 @@
+import{d as t,H as n,i as s,w as a,o as _,m as r}from"./index-36c9ab79.js";const c=t({__name:"BaseLink",props:{to:{}},setup(p){return(e,i)=>{const o=n("RouterLink");return _(),s(o,{class:"link",to:e.to},{default:a(()=>[r(e.$slots,"default")]),_:3},8,["to"])}}});export{c as _};
